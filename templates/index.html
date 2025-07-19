@@ -1,132 +1,82 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Умное Game Bot</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Умное Game Bot</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #dee8ff, #e6e9ff);
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
+    }
+    .container {
+      background-color: white;
+      border-radius: 15px;
+      padding: 30px 40px;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      animation: fadeIn 1s ease;
+    }
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .category {
+      margin: 10px 0;
+      font-size: 16px;
+      text-align: left;
+    }
+    button {
+      background-color: #ffd200;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover {
+      background-color: #f0c100;
+    }
+    .hidden {
+      display: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-    <div class="container-fluid h-100">
-        <div class="row h-100 justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6 d-flex flex-column">
-                
-                <!-- Header -->
-                <div class="chat-header">
-                    <div class="d-flex align-items-center">
-                        <div class="bot-avatar me-3">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div>
-                            <h5 class="mb-0">Умное Game Bot</h5>
-                            <small class="text-muted">онлайн</small>
-                        </div>
-                    </div>
-                    <div class="header-actions">
-                        <p>Привет! 👋 Я бот для парной игры с вопросами!</p>
-                            <p>Выберите категорию вопросов:</p>
-                            <div class="d-grid gap-2">
-                              <a href="/category/smart" class="btn btn-outline-dark">♣️ умное — глубокие и философские вопросы</a>
-                              <a href="/category/strange" class="btn btn-outline-danger">♦️ странное — необычные и забавные вопросы</a>
-                              <a href="/category/intimate" class="btn btn-outline-danger">♥️ интимное — романтические и личные вопросы</a>
-                              <a href="/category/action" class="btn btn-outline-primary">♠️ действие — задания для выполнения</a>
-                                <a href="{{ url_for('random_card') }}" class="btn btn-warning mt-3">🎴 Вытянуть случайную карту</a>
-                            </div>
-                          <p class="mt-3">Нажмите на кнопку с нужной категорией!</p>
-                        <form method="POST" action="{{ url_for('clear_chat') }}" class="d-inline">
-                            <button type="submit" class="btn btn-sm btn-outline-light">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </form>
-                        <a href="{{ url_for('admin') }}" class="btn btn-sm btn-outline-light ms-2">
-                            <i class="fas fa-cog"></i>
-                        </a>
-                    </div>
-                </div>
+  <!-- Экран приветствия -->
+  <div class="container" id="startScreen">
+    <h1>Привет! 👋</h1>
+    <p>Я бот для парной игры с вопросами!</p>
+    <button onclick="showCategories()">▶️ /start</button>
+  </div>
 
-                <!-- Chat Messages -->
-                <div class="chat-messages flex-grow-1" id="chatMessages">
-                    {% if not chat_history %}
-                    <div class="text-center text-muted">
-                      <i class="fas fa-comments fa-3x mb-3"></i>
-                      
-                    </div>
-                    {% endif %}
+  <!-- Экран с категориями -->
+  <div class="container hidden" id="categoriesScreen">
+    <h1>Выберите категорию вопросов:</h1>
+    <div class="category">♠️ <b>умное</b> — глубокие и философские вопросы</div>
+    <div class="category">♦️ <b>странное</b> — необычные и забавные вопросы</div>
+    <div class="category">♥️ <b>интимное</b> — романтические и личные вопросы</div>
+    <div class="category">♣️ <b>действие</b> — задания для выполнения</div>
+    <button>🃏 Вытянуть случайную карту</button>
+    <p style="margin-top: 10px; font-size: 14px; color: #888;">Нажмите на кнопку с нужной категорией!</p>
+  </div>
 
-                    {% for message in chat_history %}
-                        {% if message.type == 'user' %}
-                            <div class="message user-message">
-                                <div class="message-content">
-                                    {{ message.message }}
-                                    <div class="message-time">{{ message.timestamp }}</div>
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="message bot-message">
-                                <div class="message-content">
-                                    {{ message.message|replace('\n', '<br>')|safe }}
-                                    <div class="message-time">{{ message.timestamp }}</div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="chat-actions">
-                    {% if not chat_history or chat_history[-1].type == 'bot' %}
-                        {% if not chat_history %}
-                            <!-- Start Button -->
-                            <form method="POST" action="{{ url_for('start_game') }}">
-                                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
-                                    <i class="fas fa-play me-2"></i>
-                                    /start
-                                </button>
-                            </form>
-                        {% else %}
-                            <!-- Category Buttons -->
-                            <div class="category-buttons">
-                                <div class="row g-2">
-                                    <div class="col-6">
-                                        <form method="POST" action="{{ url_for('get_question', category='smart') }}">
-                                            <button type="submit" class="btn btn-outline-primary w-100">
-                                                ♣️ умное
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="col-6">
-                                        <form method="POST" action="{{ url_for('get_question', category='strange') }}">
-                                            <button type="submit" class="btn btn-outline-warning w-100">
-                                                ♦️ странное
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="col-6">
-                                        <form method="POST" action="{{ url_for('get_question', category='intimate') }}">
-                                            <button type="submit" class="btn btn-outline-danger w-100">
-                                                ♥️ интимное
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <div class="col-6">
-                                        <form method="POST" action="{{ url_for('get_question', category='action') }}">
-                                            <button type="submit" class="btn btn-outline-dark w-100">
-                                                ♠️ действие
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <script>
+    function showCategories() {
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('categoriesScreen').classList.remove('hidden');
+    }
+  </script>
 </body>
 </html>
