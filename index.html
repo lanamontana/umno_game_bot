@@ -2,57 +2,76 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Умное Game Bot</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(120deg, #c7d2fe, #fdf2f8);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #dee8ff, #e6e9ff);
       margin: 0;
-      padding: 0;
+      padding: 40px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      min-height: 100vh;
       color: #333;
     }
     .container {
-      background: white;
-      padding: 40px;
+      background-color: white;
       border-radius: 15px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      padding: 30px 40px;
       max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       text-align: center;
+      animation: fadeIn 1s ease;
     }
     h1 {
-      margin-bottom: 10px;
+      font-size: 24px;
+      margin-bottom: 20px;
     }
-    p {
-      margin-top: 0;
-      font-size: 1.1em;
+    .category {
+      margin: 10px 0;
     }
-    a.button {
-      display: inline-block;
-      margin-top: 25px;
-      padding: 12px 24px;
-      background: #6366f1;
-      color: white;
-      text-decoration: none;
+    button {
+      background-color: #ffd200;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
       border-radius: 8px;
-      font-weight: bold;
-      transition: background 0.3s ease;
+      cursor: pointer;
+      margin-top: 20px;
     }
-    a.button:hover {
-      background: #4f46e5;
+    button:hover {
+      background-color: #f0c100;
+    }
+    .hidden {
+      display: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🧠 Умное Game Bot</h1>
-    <p>Интерактивная игра для пар: умное, странное, интимное или действенное. Идеально для глубокого общения и флирта.</p>
-    <a class="button" href="https://t.me/ИМЯ_ТВОЕГО_БОТА">Перейти к Telegram-боту</a>
+  <div class="container" id="startScreen">
+    <h1>Привет! 👋</h1>
+    <p>Я бот для парной игры с вопросами!</p>
+    <button onclick="showCategories()">/start</button>
   </div>
+
+  <div class="container hidden" id="categoriesScreen">
+    <h1>Выберите категорию вопросов:</h1>
+    <div class="category">♠️ <b>умное</b> — глубокие и философские вопросы</div>
+    <div class="category">♦️ <b>странное</b> — необычные и забавные вопросы</div>
+    <div class="category">♥️ <b>интимное</b> — романтические и личные вопросы</div>
+    <div class="category">♣️ <b>действие</b> — задания для выполнения</div>
+    <button>🃏 Вытянуть случайную карту</button>
+  </div>
+
+  <script>
+    function showCategories() {
+      document.getElementById('startScreen').classList.add('hidden');
+      document.getElementById('categoriesScreen').classList.remove('hidden');
+    }
+  </script>
 </body>
 </html>
