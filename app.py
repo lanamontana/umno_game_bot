@@ -77,7 +77,7 @@ def ask_question(message):
     bot.send_message(message.chat.id, f"🃏 {question}")
 
 # Запуск
-if name == "__main__":
+if __name__ == "__main__":
     bot.infinity_polling()
 
 CATEGORY_NAMES = {
