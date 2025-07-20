@@ -1,82 +1,45 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <title>Умное Game Bot</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #dee8ff, #e6e9ff);
-      margin: 0;
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #333;
-    }
-    .container {
-      background-color: white;
-      border-radius: 15px;
-      padding: 30px 40px;
-      max-width: 500px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      text-align: center;
-      animation: fadeIn 1s ease;
-    }
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-    .category {
-      margin: 10px 0;
-      font-size: 16px;
-      text-align: left;
-    }
-    button {
-      background-color: #ffd200;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    button:hover {
-      background-color: #f0c100;
-    }
-    .hidden {
-      display: none;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Выбор категории</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdfdfd;
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            color: #333;
+        }
+        .category-button {
+            display: block;
+            margin: 15px auto;
+            padding: 15px 25px;
+            font-size: 18px;
+            color: white;
+            background-color: #555;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            width: 300px;
+        }
+        .smart { background-color: #4CAF50; }
+        .weird { background-color: #f39c12; }
+        .intimate { background-color: #e74c3c; }
+        .action { background-color: #8e44ad; }
+        .random { background-color: #2c3e50; }
+    </style>
 </head>
 <body>
-  <!-- Экран приветствия -->
-  <div class="container" id="startScreen">
-    <h1>Привет! 👋</h1>
-    <p>Я бот для парной игры с вопросами!</p>
-    <button onclick="showCategories()">▶️ /start</button>
-  </div>
-
-  <!-- Экран с категориями -->
-  <div class="container hidden" id="categoriesScreen">
     <h1>Выберите категорию вопросов:</h1>
-    <div class="category">♠️ <b>умное</b> — глубокие и философские вопросы</div>
-    <div class="category">♦️ <b>странное</b> — необычные и забавные вопросы</div>
-    <div class="category">♥️ <b>интимное</b> — романтические и личные вопросы</div>
-    <div class="category">♣️ <b>действие</b> — задания для выполнения</div>
-    <button>🃏 Вытянуть случайную карту</button>
-    <p style="margin-top: 10px; font-size: 14px; color: #888;">Нажмите на кнопку с нужной категорией!</p>
-  </div>
 
-  <script>
-    function showCategories() {
-      document.getElementById('startScreen').classList.add('hidden');
-      document.getElementById('categoriesScreen').classList.remove('hidden');
-    }
-  </script>
+    <a class="category-button smart" href="/category/smart">♣️ умное — глубокие и философские вопросы</a>
+    <a class="category-button weird" href="/category/weird">♦️ странное — необычные и забавные вопросы</a>
+    <a class="category-button intimate" href="/category/intimate">♥️ интимное — романтические и личные вопросы</a>
+    <a class="category-button action" href="/category/action">♠️ действие — задания для выполнения</a>
+
+    <a class="category-button random" href="/random_card">🎲 Вытянуть случайную карту</a>
 </body>
 </html>

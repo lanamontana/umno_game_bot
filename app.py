@@ -9,7 +9,6 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "mysecretkey")
 
-# Заглушки. Ты их замени на свой код или импорт из questions.py
 QUESTIONS = {
     "smart": ["Что такое квантовая запутанность?"],
     "weird": ["Что бы ты сделал, если бы оказался на Марсе?"],
@@ -18,22 +17,19 @@ QUESTIONS = {
 }
 
 CATEGORY_NAMES = {
-    "smart": "♣ Умное",
-    "weird": "♦ Странное",
-    "intimate": "♥ Интимное",
-    "action": "♠ Действие"
+    "smart": "♣️ Умное",
+    "weird": "♦️ Странное",
+    "intimate": "♥️ Интимное",
+    "action": "♠️ Действие"
 }
-
 
 @app.route('/')
 def intro():
     return render_template('intro.html')
 
-
 @app.route('/menu')
 def menu():
     return render_template('index.html', category_names=CATEGORY_NAMES)
-
 
 @app.route("/category/<category>")
 def category(category):
@@ -46,7 +42,6 @@ def category(category):
                            category=category,
                            category_names=CATEGORY_NAMES)
 
-
 @app.route('/random_card')
 def random_card():
     category = random.choice(list(QUESTIONS.keys()))
@@ -56,11 +51,9 @@ def random_card():
                            category=category,
                            category_names=CATEGORY_NAMES)
 
-
 @app.route('/admin')
 def admin():
     return render_template('admin.html', categories=CATEGORY_NAMES)
-
 
 @app.route('/admin/add_question', methods=['POST'])
 def add_question():
@@ -71,13 +64,11 @@ def add_question():
         QUESTIONS[category].append(question.strip())
     return redirect(url_for('admin'))
 
-
 @app.route('/clear_chat', methods=['POST'])
 def clear_chat():
     session['chat_history'] = []
     session.modified = True
     return redirect(url_for('index'))
-
 
 @app.route('/start/<category>')
 def start(category):
@@ -104,6 +95,5 @@ def start(category):
     session.modified = True
     return redirect(url_for('index'))
 
-
-if __name__ == "__main__":
+if name == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
