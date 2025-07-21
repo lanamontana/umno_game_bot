@@ -4,6 +4,8 @@ from datetime import datetime
 from dotenv import load_dotenv
 import os
 
+from gpt_utils import generate_question
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -78,14 +80,22 @@ def start(category):
     if 'chat_history' not in session:
         session['chat_history'] = []
 
+    # Добавляем выбор категории в историю
     session['chat_history'].append({
         'type': 'user',
         'message': CATEGORY_NAMES[category],
         'timestamp': datetime.now().strftime('%H:%M')
     })
 
-    question = random.choice(QUESTIONS[category])
+    # Пробуем получить вопрос от GPT
+    gpt_question = generate_question(CATEGORY_NAMES[category])
+    
+    if gpt_question:
+        question = gpt_question
+    else:
+        question = random.choice(QUESTIONS[category])
 
+    # Добавляем вопрос от бота
     session['chat_history'].append({
         'type': 'bot',
         'message': f"📝 {question}",
