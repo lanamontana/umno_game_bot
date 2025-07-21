@@ -88,7 +88,7 @@ def start(category):
     })
 
     # Пробуем получить вопрос от GPT
-    gpt_question = generate_ gpt_question(CATEGORY_NAMES[category])
+    gpt_question = generate_gpt_question(CATEGORY_NAMES[category])
     
     if gpt_question:
         question = gpt_question
