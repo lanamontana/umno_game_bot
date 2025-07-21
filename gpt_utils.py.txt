@@ -1,0 +1,47 @@
+import openai
+import os
+import json
+from datetime import datetime
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+SAVE_PATH = "gpt_questions"
+
+os.makedirs(SAVE_PATH, exist_ok=True)
+
+def generate_gpt_question(category):
+    prompt_map = {
+        "smart": "Придумай интересный, интеллектуальный вопрос для игры вдвоем.",
+        "weird": "Придумай странный, необычный вопрос для игры вдвоем.",
+        "intimate": "Придумай глубокий, интимный вопрос для доверительной беседы вдвоем.",
+        "action": "Придумай задание или действие, которое один участник должен сделать с другим."
+    }
+
+    if category not in prompt_map:
+        return None
+
+    prompt = prompt_map[category]
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "Ты генератор креативных вопросов для игры в паре."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.9,
+            max_tokens=100
+        )
+
+        question = response['choices'][0]['message']['content'].strip()
+
+        # Сохраняем вопрос
+        filename = f"{SAVE_PATH}/{category}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(question)
+
+        return question
+
+    except Exception as e:
+        print("Ошибка при генерации вопроса:", e)
+        return None

@@ -4,7 +4,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 import os
 
-from gpt_utils import generate_question
+from gpt_utils import generate_gpt_question
 
 load_dotenv()
 
@@ -88,7 +88,7 @@ def start(category):
     })
 
     # Пробуем получить вопрос от GPT
-    gpt_question = generate_question(CATEGORY_NAMES[category])
+    gpt_question = generate_ gpt_question(CATEGORY_NAMES[category])
     
     if gpt_question:
         question = gpt_question
