@@ -45,3 +45,5 @@ def generate_gpt_question(category):
     except Exception as e:
         print("Ошибка при генерации вопроса:", e)
         return None
+def generate_gpt_question(category):
+    return f"Тестовый вопрос для категории {category}"

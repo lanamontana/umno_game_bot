@@ -88,8 +88,9 @@ def start(category):
     })
 
     # Пробуем получить вопрос от GPT
-    gpt_question = generate_gpt_question(CATEGORY_NAMES[category])
-    
+print("⚙️ Запрашиваю GPT-вопрос...")
+    gpt_question = generate_gpt_question(category)
+ print("🎯 GPT ответ:", gpt_question)   
     if gpt_question:
         question = gpt_question
     else:
